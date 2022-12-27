@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,22 +26,22 @@ public class Log extends BaseEntity {
 	
 	@Column(name = "username", length = 50)
 	@Size(min = 5, max = 50, message = Constantes.VALIDATION_USERNAME_LOG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
 	@Column(name = "entidad", length = 50)
 	@Size(min = 1, max = 50, message = Constantes.VALIDATION_ENTIDAD_LOG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_ENTIDAD_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_ENTIDAD_OBLIGATORIO)
 	private String entidad;
 	
 	@Column(name = "accion", length = 50)
 	@Size(min = 1, max = 50, message = Constantes.VALIDATION_ACCION_LOG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_ACCION_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_ACCION_OBLIGATORIO)
 	private String accion;
 	
 	@Column(name = "observaciones", length = 500)
 	@Size(min = 1, max = 500, message = Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_OBSERVACIONES_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_OBSERVACIONES_OBLIGATORIO)
 	private String observaciones;
 	
 	@Column(name = "fecha")

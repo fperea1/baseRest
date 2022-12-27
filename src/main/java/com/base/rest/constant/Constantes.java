@@ -110,6 +110,8 @@ public final class Constantes {
 	
 	public static final String ERROR_USERNAME_PASSWORD = "error.username.password";
 	
+	public static final String EXC_PASSWORD_ANTERIOR_OBLIGATORIO = "error.password.anterior.obligatorio";
+	
 	// Símbolos
 	
 	public static final String SEPARADOR_DOS_PUNTOS = ": ";
@@ -247,8 +249,6 @@ public final class Constantes {
 	public static final String VALIDATION_ASUNTO_OBLIGATORIO = "validation.asunto.obligatorio";
 	
 	public static final String VALIDATION_CONSULTA_OBLIGATORIO = "validation.consulta.obligatorio";
-	
-	public static final String VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO = "validation.password.anterior.obligatorio";
 	
 	public static final String VALIDATION_NUEVA_PASSWORD_OBLIGATORIO = "validation.nueva.password.obligatorio";
 	

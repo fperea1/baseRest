@@ -9,8 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+import com.base.rest.constant.Constantes;
 import com.googlecode.jmapper.annotations.JMap;
 
 @Entity
@@ -23,7 +24,7 @@ public class Rol extends BaseEntity {
 	private int id;
 	
 	@Column(name = "nombre", length = 50, unique = true)
-	@NotBlank
+	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	@JMap
 	private String nombre;
 

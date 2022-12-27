@@ -157,6 +157,9 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 	@Override
 	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword, String newPassword2) {
 		
+		if (oldPassword == null) {
+			throw new ServiceException(Constantes.EXC_PASSWORD_ANTERIOR_OBLIGATORIO);
+		}
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(username, oldPassword));

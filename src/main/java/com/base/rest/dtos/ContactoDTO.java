@@ -1,15 +1,15 @@
 package com.base.rest.dtos;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.base.rest.constant.Constantes;
 
 public class ContactoDTO {
 	
-	@NotBlank(message = Constantes.VALIDATION_ASUNTO_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_ASUNTO_OBLIGATORIO)
 	private String asunto;
 	
-	@NotBlank(message = Constantes.VALIDATION_CONSULTA_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_CONSULTA_OBLIGATORIO)
 	private String consulta;
 
 	public String getAsunto() {
