@@ -65,7 +65,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 		if (filtro.getFilters() != null && !filtro.getFilters().isEmpty()) {
 			List<SearchCriteriaColumn> params = FiltrosUtils.getFiltrosSelect(filtro.getFilters());
 			for (SearchCriteriaColumn scc: params) {
-				spec = Specification.where(spec).and(hasRolConNombre(scc.getValue().toString()));
+				spec = Specification.where(spec).or(hasRolConNombre(scc.getValue().toString()));
 			}
 		}
         
