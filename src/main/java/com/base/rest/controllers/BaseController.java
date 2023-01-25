@@ -23,7 +23,7 @@ public class BaseController {
 	
 	protected ResponseEntity<String> responseOperationCorrecta(String entidad, String accion, String observaciones) {
 		
-		logService.save(new Log(getCurrentUserName(), entidad, accion, observaciones));
+		logService.save(new Log(getCurrentUserName(), I18nUtils.getMensaje(entidad), I18nUtils.getMensaje(accion), observaciones));
 		return new ResponseEntity<>(I18nUtils.getMensaje(Constantes.OPERACION_CORRECTA), HttpStatus.OK);
 	}
 }

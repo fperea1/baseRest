@@ -18,6 +18,7 @@ import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.enums.ConfiguracionEnum;
 import com.base.rest.service.interfaces.ConfiguracionService;
 import com.base.rest.service.interfaces.UsuarioService;
+import com.base.rest.utils.I18nUtils;
 import com.base.rest.utils.mail.EmailServiceImpl;
 
 @RestController
@@ -51,7 +52,8 @@ public class ContactoController extends BaseController {
 		UsuarioDTO usuario = usuarioService.findByUsername(getCurrentUserName());
 		usuarioService.cambioPasswordUser(usuario.getId(), usuario.getUsername(), 
 				cambioPasswordDTO.getOldPassword(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 
 }
