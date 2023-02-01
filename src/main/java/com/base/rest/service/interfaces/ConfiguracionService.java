@@ -13,7 +13,7 @@ public interface ConfiguracionService {
 	
 	public void update(ConfiguracionDTO configuracion);
 	
-	public ConfiguracionDTO findById(Integer id);
+	public ConfiguracionDTO getById(Integer id);
 	
 	public void deleteById(Integer id);
 }

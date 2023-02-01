@@ -35,7 +35,7 @@ import com.base.rest.utils.bd.SearchCriteriaColumn;
 public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioService {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioRepository repository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
@@ -71,7 +71,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterListadoDTO.convertList(usuarioRepository.findAll(spec, pageable));
+		return converterListadoDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
 	}
 	
 	private Specification<BaseEntity> hasRolConNombre(String nombre) {
@@ -91,54 +91,54 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 			usuario.setFechaAlta(new Date());
 			usuario.setActivo(true);
 		}
-		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario));
+		repository.save((Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Transactional
 	@Override
 	public void update(UsuarioDTO usuario) {
 
-		usuario.setPassword(usuarioRepository.getPassword(usuario.getId()));
-		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario));
+		usuario.setPassword(repository.getPassword(usuario.getId()));
+		repository.save((Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Override
-	public UsuarioDTO findById(Integer id) {
+	public UsuarioDTO getById(Integer id) {
 		
-		if (!usuarioRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository.findById(id).orElse(null));
+		return (UsuarioDTO) converterDTO.toDTO(repository.findById(id).orElse(null));
 	}
 
 	@Transactional
 	@Override
 	public void deleteById(Integer id) {
 		
-		if (!usuarioRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		usuarioRepository.deleteById(id);
+		repository.deleteById(id);
 	}
 
 	@Transactional
 	@Override
-	public void deactivateById(Integer id) {
+	public void deactivate(Integer id) {
 		
-		if (!usuarioRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		usuarioRepository.deactivateById(new Date(), id);
+		repository.deactivate(new Date(), id);
 	}
 
 	@Transactional
 	@Override
-	public void activateById(Integer id) {
+	public void activate(Integer id) {
 		
-		if (!usuarioRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		usuarioRepository.activateById(id);
+		repository.activate(id);
 	}
 	
 	private void validarPassword(String password, String newPassword2) {
@@ -167,25 +167,25 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 			throw new ServiceException(Constantes.EXC_PASSWORD_ANT_ERRONEA);
 		}
 		validarPassword(newPassword, newPassword2);
-		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
+		repository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	@Transactional
 	@Override
 	public void cambioPasswordAdmin(Integer id, String newPassword, String newPassword2) {
 		
-		UsuarioDTO u = findById(id);
+		UsuarioDTO u = getById(id);
 		if (u == null) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		validarPassword(newPassword, newPassword2);
-		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
+		repository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	@Override
 	public UsuarioDTO findByUsername(String username) {
 		
-		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository.getByUsername(username));
+		return (UsuarioDTO) converterDTO.toDTO(repository.getByUsername(username));
 	}
 
 }

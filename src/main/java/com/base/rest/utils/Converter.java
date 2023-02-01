@@ -23,9 +23,21 @@ public class Converter <O, D> {
 
 	// Para mapeo entre clases.
 	@SuppressWarnings("unchecked")
-	public ResultTableDTO convertList(Page<BaseEntity> page) {
+	public ResultTableDTO convertToResultTableDTO(Page<BaseEntity> page) {
 		return new ResultTableDTO((List<BaseDTO>) page.getContent().stream().map(temp-> mapper.getDestination((O) temp))
                 .collect(Collectors.toList()), page.getTotalElements());
+    }
+	
+	@SuppressWarnings("unchecked")
+	public List<? extends BaseDTO> convertListToSelectDTO(List<? extends BaseEntity> lista) {
+		return (List<BaseDTO>) lista.stream().map(temp-> mapper.getDestination((O) temp))
+                .collect(Collectors.toList());
+    }
+	
+	@SuppressWarnings("unchecked")
+	public List<? extends BaseDTO> convertToListDTO(List<? extends BaseEntity> lista) {
+		return (List<BaseDTO>) lista.stream().map(temp-> mapper.getDestination((O) temp))
+                .collect(Collectors.toList());
     }
 	
 	@SuppressWarnings("unchecked")

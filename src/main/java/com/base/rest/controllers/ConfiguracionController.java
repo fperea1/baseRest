@@ -70,12 +70,12 @@ public class ConfiguracionController extends BaseController {
 	
 	@GetMapping(Constantes.FIND)
     public ResponseEntity<ConfiguracionDTO> findById(@RequestParam Integer id) {
-		return new ResponseEntity<>(configuracionService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<>(configuracionService.getById(id), HttpStatus.OK);
     }
 	
 	@DeleteMapping(Constantes.DELETE)
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
-		ConfiguracionDTO configuracion = configuracionService.findById(id);
+		ConfiguracionDTO configuracion = configuracionService.getById(id);
 		configuracionService.deleteById(id);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());

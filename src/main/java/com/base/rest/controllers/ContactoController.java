@@ -37,10 +37,10 @@ public class ContactoController extends BaseController {
 	@PostMapping(Constantes.ENVIO_CONSULTA)
     public ResponseEntity<String> envioConsulta(@Valid @RequestBody ContactoDTO contacto) {
 		
-		String from = configuracionService.findById(ConfiguracionEnum.MAIL_FROM.getCodigo()).getValor(); 
-		String to = configuracionService.findById(ConfiguracionEnum.MAIL_ADMINISTRACION.getCodigo()).getValor();
-		String cc = configuracionService.findById(ConfiguracionEnum.MAIL_ADMINISTRACION_CC.getCodigo()).getValor();
-		String bcc = configuracionService.findById(ConfiguracionEnum.MAIL_ADMINISTRACION_BCC.getCodigo()).getValor();
+		String from = configuracionService.getById(ConfiguracionEnum.MAIL_FROM.getCodigo()).getValor(); 
+		String to = configuracionService.getById(ConfiguracionEnum.MAIL_ADMINISTRACION.getCodigo()).getValor();
+		String cc = configuracionService.getById(ConfiguracionEnum.MAIL_ADMINISTRACION_CC.getCodigo()).getValor();
+		String bcc = configuracionService.getById(ConfiguracionEnum.MAIL_ADMINISTRACION_BCC.getCodigo()).getValor();
 		
 		emailService.sendSimpleMessage(from, to, cc, bcc, contacto.getAsunto(), contacto.getConsulta());
         

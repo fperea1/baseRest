@@ -1,9 +1,11 @@
 package com.base.rest.service.interfaces;
 
-import com.base.rest.dtos.ResultTableDTO;
+import java.util.List;
+
+import com.base.rest.dtos.SelectDTO;
 
 public interface RolService {
 
-	public ResultTableDTO findAll();
+	List<SelectDTO> findForSelect();
 
 }

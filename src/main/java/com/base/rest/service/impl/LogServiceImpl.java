@@ -46,7 +46,7 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterDTO.convertList(logRepository.findAll(spec, pageable));
+		return converterDTO.convertToResultTableDTO(logRepository.findAll(spec, pageable));
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.base.rest.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.ResultTableDTO;
+import com.base.rest.dtos.SelectDTO;
 import com.base.rest.service.interfaces.RolService;
 
 @RestController
@@ -16,14 +18,14 @@ import com.base.rest.service.interfaces.RolService;
 public class RolController {
 
 	@Autowired
-	private RolService rolService;
+	private RolService service;
 	
-	@GetMapping(Constantes.FIND_ALL)
-    public ResponseEntity<ResultTableDTO> findAll() {
+	@GetMapping(Constantes.FIND_FOR_SELECT)
+    public ResponseEntity<List<SelectDTO>> findForSelect() {
 		
-		ResultTableDTO resultTable = rolService.findAll();
+		List<SelectDTO> roles = service.findForSelect();
 		
-        return new ResponseEntity<>(resultTable, HttpStatus.OK);
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
 }

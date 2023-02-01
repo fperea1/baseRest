@@ -50,7 +50,7 @@ public class ConfiguracionServiceImpl extends BaseServiceImpl implements Configu
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-        return converterDTO.convertList(configuracionRepository.findAll(spec, pageable));
+        return converterDTO.convertToResultTableDTO(configuracionRepository.findAll(spec, pageable));
         
 	}
 
@@ -69,7 +69,7 @@ public class ConfiguracionServiceImpl extends BaseServiceImpl implements Configu
 	}
 
 	@Override
-	public ConfiguracionDTO findById(Integer id) {
+	public ConfiguracionDTO getById(Integer id) {
 		
 		if (!configuracionRepository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);

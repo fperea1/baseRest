@@ -46,6 +46,8 @@ public final class Constantes {
 	
 	public static final String GET_REPORT_EXCEL = "/getReportExcel";
 	
+	public static final String FIND_FOR_SELECT = "/findForSelect";
+	
 	// Funcionalidades
 	
 	public static final String CONFIGURACION = "configuracion";

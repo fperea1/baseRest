@@ -17,12 +17,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>, JpaS
 	Usuario getByUsername(String username);
 
 	@Modifying
-	@Query("update Usuario set activo = 0, fechaDesactivacion = :fecha where id = :id")
-	Integer deactivateById(@Param("fecha") Date fecha, @Param("id") Integer id);
+	@Query("update Usuario set activo = false, fechaDesactivacion = :fecha where id = :id")
+	Integer deactivate(@Param("fecha") Date fecha, @Param("id") Integer id);
 
 	@Modifying
-	@Query("update Usuario set activo = 1, fechaDesactivacion = null where id = :id")
-	Integer activateById(@Param("id") Integer id);
+	@Query("update Usuario set activo = true, fechaDesactivacion = null where id = :id")
+	Integer activate(@Param("id") Integer id);
 	
 	@Modifying
 	@Query("update Usuario set password = :password where id = :id")
