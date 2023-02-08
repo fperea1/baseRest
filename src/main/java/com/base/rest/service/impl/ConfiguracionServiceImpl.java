@@ -31,8 +31,8 @@ public class ConfiguracionServiceImpl extends BaseServiceImpl implements Configu
 
 	public ConfiguracionServiceImpl() {
 		super();
-		converterEntity = new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
-		converterDTO = new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
+		converterEntity = new Converter<>(ConfiguracionDTO.class, Configuracion.class);
+		converterDTO = new Converter<>(Configuracion.class, ConfiguracionDTO.class);
 	}
 
 	@Override

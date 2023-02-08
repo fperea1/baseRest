@@ -51,9 +51,9 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 
 	public UsuarioServiceImpl() {
 		super();
-		converterEntity = new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
-		converterDTO = new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
-		converterListadoDTO = new Converter<Usuario, UsuarioListadoDTO>(Usuario.class, UsuarioListadoDTO.class);
+		converterEntity = new Converter<>(UsuarioDTO.class, Usuario.class);
+		converterDTO = new Converter<>(Usuario.class, UsuarioDTO.class);
+		converterListadoDTO = new Converter<>(Usuario.class, UsuarioListadoDTO.class);
 	}
 
 	@Override
@@ -98,7 +98,6 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 	@Override
 	public void update(UsuarioDTO usuario) {
 
-		usuario.setPassword(repository.getPassword(usuario.getId()));
 		repository.save((Usuario) converterEntity.toEntity(usuario));
 	}
 

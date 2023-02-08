@@ -1,6 +1,6 @@
 package com.base.rest.dtos;
 
-public abstract class BaseDTO {
+public interface BaseDTO {
 	
 	public abstract String getNombre();
 

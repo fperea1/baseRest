@@ -27,7 +27,7 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
 
 	public LogServiceImpl() {
 		super();
-		converterDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
+		converterDTO = new Converter<>(Log.class, LogDTO.class);
 	}
 
 	@Transactional

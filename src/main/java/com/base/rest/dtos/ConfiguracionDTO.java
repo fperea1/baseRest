@@ -7,7 +7,7 @@ import com.base.rest.constant.Constantes;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class ConfiguracionDTO extends BaseDTO {
+public class ConfiguracionDTO implements BaseDTO {
 
 	private Integer id;
 	

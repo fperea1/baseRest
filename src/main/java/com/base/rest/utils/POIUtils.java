@@ -44,23 +44,23 @@ public final class POIUtils {
 			Cell headerCell = null;
 			for (Enum e: tablaEnum) {
 				Field f1 = e.getClass().getDeclaredField("titulo");
-				f1.setAccessible(true);
+				f1.trySetAccessible();
 				headerCell = header.createCell(contador++);
 				headerCell.setCellValue(I18nUtils.getMensaje((String) f1.get(e)));
 				
 			}
 
 			contador = 1;
-			for (BaseDTO record: listado) {
+			for (BaseDTO dto: listado) {
 				Row row = sheet.createRow(contador++);
 				int contadorCell = 0;
 				for (Enum e: tablaEnum) {
 					Field nombreColumna = e.getClass().getDeclaredField("column");
-					nombreColumna.setAccessible(true);
-					Field valor = record.getClass().getDeclaredField((String) nombreColumna.get(e));
-					valor.setAccessible(true);
+					nombreColumna.trySetAccessible();
+					Field valor = dto.getClass().getDeclaredField((String) nombreColumna.get(e));
+					valor.trySetAccessible();
 					Cell cell = row.createCell(contadorCell++);
-					setValorCelda(valor, cell, cellStyleDateTime, record);
+					setValorCelda(valor, cell, cellStyleDateTime, dto);
 				}
 			}
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -73,27 +73,30 @@ public final class POIUtils {
 		
 	}
 
-	private static void setValorCelda(Field valor, Cell cell, CellStyle cellStyleDateTime, BaseDTO record) throws IllegalArgumentException, IllegalAccessException {
+	private static void setValorCelda(Field valor, Cell cell, CellStyle cellStyleDateTime, BaseDTO dto) throws IllegalArgumentException, IllegalAccessException {
 		
 		if (valor.getType() == Date.class) {
 			cell.setCellStyle(cellStyleDateTime);
-			cell.setCellValue((Date) valor.get(record));
+			cell.setCellValue((Date) valor.get(dto));
+		} else if (valor.getType() == Integer.class || valor.getType() == Double.class || valor.getType() == Float.class) {
+			cell.setCellValue((Integer)valor.get(dto));
 		} else if (valor.getType() == Boolean.class) {
-			Boolean bol = (Boolean)valor.get(record);
+			Boolean bol = (Boolean)valor.get(dto);
 			cell.setCellValue((bol != null && bol) ? Constantes.SI : Constantes.NO);
+		} else if (valor.getType().getPackageName().equals("com.base.rest.dtos")) {
+			cell.setCellValue(((BaseDTO)valor.get(dto)).getNombre());
 		} else if (valor.getType() == Set.class) {
 			@SuppressWarnings("unchecked")
-			Set<BaseDTO> set = (HashSet<BaseDTO>)valor.get(record);
-			String nombre = "";
+			Set<BaseDTO> set = (HashSet<BaseDTO>)valor.get(dto);
+			StringBuilder nombre = new StringBuilder();
 			if (!set.isEmpty()) {
 				for (BaseDTO b: set) {
-					nombre += ", " +b.getNombre();
+					nombre.append(", " + b.getNombre());
 				}
 			}
-			nombre = nombre.replaceFirst(", ", "");
-			cell.setCellValue(nombre);
+			cell.setCellValue(nombre.substring(2));
 		} else {
-			cell.setCellValue((String) valor.get(record));
+			cell.setCellValue((String) valor.get(dto));
 		}
 	}
 }

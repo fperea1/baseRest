@@ -6,7 +6,7 @@ import java.util.Set;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class UsuarioListadoDTO extends BaseDTO {
+public class UsuarioListadoDTO implements BaseDTO {
 
 	private Integer id;
 	

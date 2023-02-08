@@ -5,7 +5,7 @@ import java.util.Date;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class LogDTO extends BaseDTO {
+public class LogDTO implements BaseDTO {
 	
 	private Integer id;
 	

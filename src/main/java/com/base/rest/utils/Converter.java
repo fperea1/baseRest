@@ -18,7 +18,7 @@ public class Converter <O, D> {
 		super();
 		Class<O> o = origen;
 		Class<D> d = destino;
-		mapper = new JMapper<D,O>(d, o);
+		mapper = new JMapper<>(d, o);
 	}
 
 	// Para mapeo entre clases.

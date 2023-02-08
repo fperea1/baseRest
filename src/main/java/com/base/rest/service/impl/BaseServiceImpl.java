@@ -43,7 +43,6 @@ public class BaseServiceImpl {
 			List<SearchCriteriaColumn> params = FiltrosUtils.getFiltrosColumns(filtro.getFilters());
 			builder.with(params);
 		}
-        Specification<BaseEntity> spec = builder.build();
-		return spec;
+        return builder.build();
 	}
 }

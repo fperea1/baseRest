@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class RolDTO extends BaseDTO {
+public class RolDTO implements BaseDTO {
 
 	@JsonView(View.Public.class)
 	private int id;

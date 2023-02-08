@@ -24,7 +24,7 @@ public class RolServiceImpl implements RolService {
 	
 	public RolServiceImpl() {
 		super();
-		toDTO = new Converter<Rol, SelectDTO>(Rol.class, SelectDTO.class);
+		toDTO = new Converter<>(Rol.class, SelectDTO.class);
 	}
 
 	@SuppressWarnings("unchecked")
