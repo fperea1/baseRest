@@ -27,7 +27,7 @@ import com.base.rest.service.interfaces.ConfiguracionService;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class ConfiguracionServiceTest {
+class ConfiguracionServiceTest {
 	
 	@Autowired
 	private ConfiguracionService service;
@@ -61,8 +61,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_CONFIG_SIZE);
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -74,8 +74,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_CONFIG_SIZE);	
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, messages.get(0));	
 	}
 	
 	@Test
@@ -87,8 +87,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);	
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));	
 	}
 
 	@Test
@@ -100,8 +100,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_VALOR_CONFIG_SIZE);
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_VALOR_CONFIG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -117,8 +117,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_VALOR_CONFIG_SIZE);
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_VALOR_CONFIG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -130,8 +130,8 @@ public class ConfiguracionServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_VALOR_OBLIGATORIO);	
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_VALOR_OBLIGATORIO, messages.get(0));	
 	}
 	
 	@Test
@@ -157,7 +157,7 @@ public class ConfiguracionServiceTest {
 	void testGetByIdKo() {		
 		ServiceException ex = assertThrows(ServiceException.class, () -> service.getById(100) );
 		assertNotNull(ex);
-		assertTrue(ex.getMessage().equals(Constantes.EXC_NO_EXISTE_ENTIDAD));
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 	
 	@Test
@@ -166,7 +166,7 @@ public class ConfiguracionServiceTest {
 		service.deleteById(1);
 		ServiceException ex = assertThrows(ServiceException.class, () -> service.getById(1) );
 		assertNotNull(ex);
-		assertTrue(ex.getMessage().equals(Constantes.EXC_NO_EXISTE_ENTIDAD));
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 	
 	@Test
@@ -174,6 +174,6 @@ public class ConfiguracionServiceTest {
 	void testDeleteByIdKo() {
 		ServiceException ex = assertThrows(ServiceException.class, () -> service.deleteById(25) );
 		assertNotNull(ex);
-		assertTrue(ex.getMessage().equals(Constantes.EXC_NO_EXISTE_ENTIDAD));
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 }
