@@ -49,14 +49,14 @@ public class AuthenticationController extends BaseController {
 				new UsernamePasswordAuthenticationToken(autenticacion.getUsername(), autenticacion.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		final String token = jwtTokenUtil.generateToken(authentication);
-		logService.save(new Log(autenticacion.getUsername(), Constantes.USUARIO, Constantes.LOGIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + autenticacion.getUsername()));
+		logService.crear(new Log(autenticacion.getUsername(), Constantes.USUARIO, Constantes.LOGIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + autenticacion.getUsername()));
 		return new ResponseEntity<>(token, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = Constantes.LOGOUT)
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName()));
+		logService.crear(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName()));
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}

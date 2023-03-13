@@ -27,13 +27,12 @@ public class RolServiceImpl implements RolService {
 		toDTO = new Converter<>(Rol.class, SelectDTO.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<SelectDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 
 }

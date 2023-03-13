@@ -14,7 +14,7 @@ import com.base.rest.utils.bd.FiltroTablasView;
 import com.base.rest.utils.bd.FiltrosUtils;
 import com.base.rest.utils.bd.SearchCriteriaColumn;
 
-public class BaseServiceImpl {
+public class SpecificationBaseServiceImpl {
 
 	protected Pageable getPageable(boolean exportar, FiltroTablasView filtro) {
 		Sort sort = getSort(filtro);

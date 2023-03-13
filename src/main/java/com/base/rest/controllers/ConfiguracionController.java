@@ -56,14 +56,14 @@ public class ConfiguracionController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody ConfiguracionDTO configuracion) {
-		configuracionService.save(configuracion);
+		configuracionService.crear(configuracion);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.ALTA, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
-	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody ConfiguracionDTO configuracion) {
-		configuracionService.update(configuracion);
+	@PutMapping(Constantes.UPDATE + "/{id}")
+    public ResponseEntity<String> update(@RequestParam Integer id, @Valid @RequestBody ConfiguracionDTO configuracion) {
+		configuracionService.actualizar(id, configuracion);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
@@ -76,7 +76,7 @@ public class ConfiguracionController extends BaseController {
 	@DeleteMapping(Constantes.DELETE)
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		ConfiguracionDTO configuracion = configuracionService.getById(id);
-		configuracionService.deleteById(id);
+		configuracionService.borrar(id);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
 	}

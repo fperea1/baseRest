@@ -334,7 +334,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put("/usuarios/update")
+		    .perform(put("/usuarios/update/" + u.getId())
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -350,7 +350,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put("/usuarios/update")
+		    .perform(put("/usuarios/update/" + 10)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))

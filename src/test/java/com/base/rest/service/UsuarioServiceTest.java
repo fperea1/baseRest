@@ -46,7 +46,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		service.save(usuario);
+		service.crear(usuario);
 		ResultTableDTO result = service.findByFilter(filtro, false);
 		assertTrue(result == null || result.getList().size() >= 1);
 	}
@@ -67,7 +67,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -83,7 +83,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -99,7 +99,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -115,7 +115,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -131,7 +131,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -147,7 +147,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("0123456789");
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -165,7 +165,7 @@ class UsuarioServiceTest {
 		usuario.setPassword(arg);
 		usuario.setEmail("frank.perea@yahoo.es");
 		usuario.setActivo(true);
-		ServiceException ex = assertThrows(ServiceException.class, () -> service.save(usuario) );
+		ServiceException ex = assertThrows(ServiceException.class, () -> service.crear(usuario) );
 		assertNotNull(ex);
 		assertEquals(Constantes.EXC_LIMITE_CARACTERES_PASSWORD, ex.getMessage());
 	}
@@ -180,7 +180,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("01234567890");
 		usuario.setEmail("frank.perea");
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -196,7 +196,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("01234567890");
 		usuario.setEmail(null);
 		usuario.setActivo(true);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(usuario) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(usuario) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -212,7 +212,7 @@ class UsuarioServiceTest {
 		usuario.setPassword("01234567890");
 		usuario.setEmail("frank2.perea@yahoo.es");
 		usuario.setActivo(null);
-		service.save(usuario);
+		service.crear(usuario);
 		UsuarioDTO uBD = service.findByUsername("Username2");
 		assertTrue(uBD.getActivo());
 	}
@@ -262,7 +262,7 @@ class UsuarioServiceTest {
 	@Test
 	@Order(19)
 	void testDeleteByIdOk() {
-		service.deleteById(1);
+		service.borrar(1);
 		ServiceException ex = assertThrows(ServiceException.class, () -> service.getById(1) );
 		assertNotNull(ex);
 		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
@@ -271,7 +271,7 @@ class UsuarioServiceTest {
 	@Test
 	@Order(20)
 	void testDeleteByIdKo() {
-		ServiceException ex = assertThrows(ServiceException.class, () -> service.deleteById(25) );
+		ServiceException ex = assertThrows(ServiceException.class, () -> service.borrar(25) );
 		assertNotNull(ex);
 		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}

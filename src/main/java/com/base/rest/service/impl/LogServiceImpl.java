@@ -18,10 +18,10 @@ import com.base.rest.utils.bd.FiltrosUtils;
 
 @Service
 @Transactional(readOnly = true)
-public class LogServiceImpl extends BaseServiceImpl implements LogService {
+public class LogServiceImpl extends SpecificationBaseServiceImpl implements LogService {
 	
 	@Autowired
-	private LogRepository logRepository;
+	private LogRepository repository;
 	
 	private Converter<Log, LogDTO> converterDTO;
 
@@ -32,9 +32,9 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
 
 	@Transactional
 	@Override
-	public void save(Log log) {
+	public void crear(Log log) {
 		
-		logRepository.save(log);
+		repository.save(log);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterDTO.convertToResultTableDTO(logRepository.findAll(spec, pageable));
+		return converterDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
 	}
 
 }

@@ -32,11 +32,8 @@ import com.base.rest.utils.bd.SearchCriteriaColumn;
 
 @Service
 @Transactional(readOnly = true)
-public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioService {
+public class UsuarioServiceImpl extends RepositoryServiceImpl<Usuario, Integer> implements UsuarioService {
 
-	@Autowired
-	private UsuarioRepository repository;
-	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
 
@@ -49,8 +46,8 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 	
 	private Converter<Usuario, UsuarioListadoDTO> converterListadoDTO;
 
-	public UsuarioServiceImpl() {
-		super();
+	public UsuarioServiceImpl(UsuarioRepository repository) {
+		super(repository);
 		converterEntity = new Converter<>(UsuarioDTO.class, Usuario.class);
 		converterDTO = new Converter<>(Usuario.class, UsuarioDTO.class);
 		converterListadoDTO = new Converter<>(Usuario.class, UsuarioListadoDTO.class);
@@ -71,7 +68,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterListadoDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
+		return converterListadoDTO.convertToResultTableDTO(((UsuarioRepository)repository).findAll(spec, pageable));
 	}
 	
 	private Specification<BaseEntity> hasRolConNombre(String nombre) {
@@ -83,7 +80,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 
 	@Transactional
 	@Override
-	public void save(UsuarioDTO usuario) {
+	public void crear(UsuarioDTO usuario) {
 
 		validarPassword(usuario.getPassword(), null);
 		usuario.setPassword(bcryptEncoder.encode(usuario.getPassword()));
@@ -91,33 +88,27 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 			usuario.setFechaAlta(new Date());
 			usuario.setActivo(true);
 		}
-		repository.save((Usuario) converterEntity.toEntity(usuario));
+		save((Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Transactional
 	@Override
-	public void update(UsuarioDTO usuario) {
+	public void actualizar(Integer id, UsuarioDTO usuario) {
 
-		repository.save((Usuario) converterEntity.toEntity(usuario));
+		update(id, (Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Override
 	public UsuarioDTO getById(Integer id) {
 		
-		if (!repository.existsById(id)) {
-			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
-		}
-		return (UsuarioDTO) converterDTO.toDTO(repository.findById(id).orElse(null));
+		return (UsuarioDTO) converterDTO.toDTO(findById(id));
 	}
 
 	@Transactional
 	@Override
-	public void deleteById(Integer id) {
+	public void borrar(Integer id) {
 		
-		if (!repository.existsById(id)) {
-			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
-		}
-		repository.deleteById(id);
+		deleteById(id);
 	}
 
 	@Transactional
@@ -127,7 +118,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		repository.deactivate(new Date(), id);
+		((UsuarioRepository)repository).deactivate(new Date(), id);
 	}
 
 	@Transactional
@@ -137,7 +128,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		repository.activate(id);
+		((UsuarioRepository)repository).activate(id);
 	}
 	
 	private void validarPassword(String password, String newPassword2) {
@@ -166,7 +157,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 			throw new ServiceException(Constantes.EXC_PASSWORD_ANT_ERRONEA);
 		}
 		validarPassword(newPassword, newPassword2);
-		repository.changePassword(bcryptEncoder.encode(newPassword), id);
+		((UsuarioRepository)repository).changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	@Transactional
@@ -178,13 +169,13 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		validarPassword(newPassword, newPassword2);
-		repository.changePassword(bcryptEncoder.encode(newPassword), id);
+		((UsuarioRepository)repository).changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	@Override
 	public UsuarioDTO findByUsername(String username) {
 		
-		return (UsuarioDTO) converterDTO.toDTO(repository.getByUsername(username));
+		return (UsuarioDTO) converterDTO.toDTO(((UsuarioRepository)repository).getByUsername(username));
 	}
 
 }
