@@ -1,6 +1,10 @@
 package com.base.rest.utils.bd;
 
-public class SearchCriteriaColumn {
+import java.io.Serializable;
+
+public class SearchCriteriaColumn implements Serializable {
+
+	private static final long serialVersionUID = 3010693172284755637L;
 
 	private String nameColumn;
 	

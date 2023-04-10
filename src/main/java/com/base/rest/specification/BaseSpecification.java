@@ -16,7 +16,7 @@ import com.base.rest.utils.bd.SearchCriteriaColumn;
 
 public class BaseSpecification implements Specification<BaseEntity>{
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5228147790285220816L;
 	
 	private SearchCriteriaColumn criteria;
 

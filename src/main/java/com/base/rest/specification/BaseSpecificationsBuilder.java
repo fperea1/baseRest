@@ -13,7 +13,7 @@ public class BaseSpecificationsBuilder {
 	private List<SearchCriteriaColumn> params;
 
     public BaseSpecificationsBuilder() {
-        params = new ArrayList<SearchCriteriaColumn>();
+        params = new ArrayList<>();
     }
 
     public Specification<BaseEntity> build() {

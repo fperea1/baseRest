@@ -13,6 +13,8 @@ public final class FiltrosUtils {
 	
 	private FiltrosUtils() {}
 	
+	private static final String VALUE = "value";
+	
 	public static FiltroTablasView getFiltroByString(String filtro) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		FiltroTablasView filtroDTO;
@@ -37,15 +39,15 @@ public final class FiltrosUtils {
 
 	public static List<SearchCriteriaColumn> getFiltrosColumns(JsonNode filters) {
 		
-		List<SearchCriteriaColumn> list = new ArrayList<SearchCriteriaColumn>();
+		List<SearchCriteriaColumn> list = new ArrayList<>();
 		Iterator<String> it = filters.fieldNames();
 		while (it.hasNext()) {
 			String column = it.next();
 			SearchCriteriaColumn scc = new SearchCriteriaColumn();
 			scc.setNameColumn(column);
 			JsonNode node = filters.path(column);
-			if (!node.path("value").asText().contentEquals("null")) {
-	            scc.setValue(node.path("value").asText());
+			if (!node.path(VALUE).asText().contentEquals("null")) {
+	            scc.setValue(node.path(VALUE).asText());
 	            scc.setMatchMode(node.path("matchMode").asText());
 	            list.add(scc);
 			}
@@ -55,15 +57,16 @@ public final class FiltrosUtils {
 	
 	public static List<SearchCriteriaColumn> getFiltrosSelect(JsonNode filters) {
 		
-		List<SearchCriteriaColumn> list = new ArrayList<SearchCriteriaColumn>();
+		List<SearchCriteriaColumn> list = new ArrayList<>();
 		Iterator<String> it = filters.fieldNames();
 		while (it.hasNext()) {
 			String column = it.next();
 			JsonNode node = filters.path(column);
-			if (!node.path("value").asText().contentEquals("null") && node.path("matchMode").asText().equals("select") ) {
+			if (!node.path(VALUE).asText().contentEquals("null") && node.path("matchMode").asText().equals("select") ) {
 				for (String s: node.findValuesAsText("nombre")) {
 					SearchCriteriaColumn scc = new SearchCriteriaColumn();
 					scc.setValue(s);
+					scc.setNameColumn(column);
 			        list.add(scc);
 				}
 			}
