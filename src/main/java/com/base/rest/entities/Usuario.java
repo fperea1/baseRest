@@ -1,6 +1,6 @@
 package com.base.rest.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -52,10 +52,10 @@ public class Usuario extends BaseEntity {
 	
 	@Column(name = "fecha_alta")
 	@NotNull(message = Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO)
-	private Date fechaAlta;
+	private LocalDateTime fechaAlta;
 	
 	@Column(name = "fecha_desactivacion")
-	private Date fechaDesactivacion;
+	private LocalDateTime fechaDesactivacion;
 	
 	@Column(name = "activo")
 	@NotNull(message = Constantes.VALIDATION_ACTIVO_OBLIGATORIO)
@@ -107,19 +107,19 @@ public class Usuario extends BaseEntity {
 		this.email = email;
 	}
 
-	public Date getFechaAlta() {
+	public LocalDateTime getFechaAlta() {
 		return fechaAlta;
 	}
 
-	public void setFechaAlta(Date fechaAlta) {
+	public void setFechaAlta(LocalDateTime fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public Date getFechaDesactivacion() {
+	public LocalDateTime getFechaDesactivacion() {
 		return fechaDesactivacion;
 	}
 
-	public void setFechaDesactivacion(Date fechaDesactivacion) {
+	public void setFechaDesactivacion(LocalDateTime fechaDesactivacion) {
 		this.fechaDesactivacion = fechaDesactivacion;
 	}
 

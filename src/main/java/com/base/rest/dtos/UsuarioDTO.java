@@ -1,6 +1,6 @@
 package com.base.rest.dtos;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -36,10 +36,10 @@ public class UsuarioDTO implements BaseDTO {
 	private String email;
 	
 	@JsonView(View.Public.class)
-	private Date fechaAlta;
+	private LocalDateTime fechaAlta;
 	
 	@JsonView(View.Public.class)
-	private Date fechaDesactivacion;
+	private LocalDateTime fechaDesactivacion;
 	
 	@JsonView(View.Public.class)
 	private Boolean activo;
@@ -87,19 +87,19 @@ public class UsuarioDTO implements BaseDTO {
 		this.email = email;
 	}
 
-	public Date getFechaAlta() {
+	public LocalDateTime getFechaAlta() {
 		return fechaAlta;
 	}
 
-	public void setFechaAlta(Date fechaAlta) {
+	public void setFechaAlta(LocalDateTime fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public Date getFechaDesactivacion() {
+	public LocalDateTime getFechaDesactivacion() {
 		return fechaDesactivacion;
 	}
 
-	public void setFechaDesactivacion(Date fechaDesactivacion) {
+	public void setFechaDesactivacion(LocalDateTime fechaDesactivacion) {
 		this.fechaDesactivacion = fechaDesactivacion;
 	}
 

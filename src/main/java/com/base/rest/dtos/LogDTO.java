@@ -1,6 +1,6 @@
 package com.base.rest.dtos;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
@@ -17,7 +17,7 @@ public class LogDTO implements BaseDTO {
 	
 	private String observaciones;
 	
-	private Date fecha;
+	private LocalDateTime fecha;
 
 	public Integer getId() {
 		return id;
@@ -59,11 +59,11 @@ public class LogDTO implements BaseDTO {
 		this.observaciones = observaciones;
 	}
 
-	public Date getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 

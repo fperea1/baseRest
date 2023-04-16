@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +41,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		service.crear(log);
 		ResultTableDTO result = service.findByFilter(filtro, false);
 		assertTrue(result == null || result.getList().size() >= 1);
@@ -62,7 +62,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -78,7 +78,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -94,7 +94,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -110,7 +110,7 @@ class LogServiceTest {
 		log.setEntidad("");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -127,7 +127,7 @@ class LogServiceTest {
 		log.setEntidad("En01234567890123456789012345678901234567890123456789");
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -143,7 +143,7 @@ class LogServiceTest {
 		log.setEntidad(null);
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -160,7 +160,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad 2");
 		log.setAccion("");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -176,7 +176,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad 2");
 		log.setAccion("Ac01234567890123456789012345678901234567890123456789");
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -192,7 +192,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad 2");
 		log.setAccion(null);
 		log.setObservaciones("Observaciones");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -208,7 +208,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad 2");
 		log.setAccion("Acción 2");
 		log.setObservaciones("");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -228,7 +228,7 @@ class LogServiceTest {
 				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
 				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
 				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -244,7 +244,7 @@ class LogServiceTest {
 		log.setEntidad("Entidad 2");
 		log.setAccion("Acción 2");
 		log.setObservaciones(null);
-		log.setFecha(new Date());
+		log.setFecha(LocalDateTime.now());
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(log) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());

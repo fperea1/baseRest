@@ -1,6 +1,6 @@
 package com.base.rest.specification;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -56,16 +56,18 @@ public class BaseSpecification implements Specification<BaseEntity>{
 	        	return builder.equal(root.<Boolean> get(criteria.getNameColumn()), Boolean.parseBoolean((String) criteria.getValue()));
 	
 	        case Constantes.DATE_IS:
-	        	return builder.equal(root.<Date> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
+	        	return builder.between(root.<LocalDateTime> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()),
+	        			Utilidades.getDateFormatAddDay((String) criteria.getValue()));
 	
 	        case Constantes.DATE_IS_NOT:
-	        	return builder.notEqual(root.<Date> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
-	
+	        	return builder.between(root.<LocalDateTime> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()),
+	        			Utilidades.getDateFormatAddDay((String) criteria.getValue())).not();
+	        	
 	        case Constantes.DATE_BEFORE:
-	        	return builder.lessThan(root.<Date> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
+	        	return builder.lessThan(root.<LocalDateTime> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
 	
 	        case Constantes.DATE_AFTER:
-	        	return builder.greaterThan(root.<Date> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
+	        	return builder.greaterThan(root.<LocalDateTime> get(criteria.getNameColumn()), Utilidades.getDateFormat((String) criteria.getValue()));
 	
 	        default:
 	        	return null;

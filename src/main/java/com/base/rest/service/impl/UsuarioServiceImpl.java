@@ -1,5 +1,6 @@
 package com.base.rest.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class UsuarioServiceImpl extends RepositoryServiceImpl<Usuario, Integer> 
 		validarPassword(usuario.getPassword(), null);
 		usuario.setPassword(bcryptEncoder.encode(usuario.getPassword()));
 		if (usuario.getId() == null) {
-			usuario.setFechaAlta(new Date());
+			usuario.setFechaAlta(LocalDateTime.now());
 			usuario.setActivo(true);
 		}
 		save((Usuario) converterEntity.toEntity(usuario));

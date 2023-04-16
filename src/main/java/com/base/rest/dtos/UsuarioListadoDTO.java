@@ -1,6 +1,6 @@
 package com.base.rest.dtos;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
@@ -16,9 +16,9 @@ public class UsuarioListadoDTO implements BaseDTO {
 	
 	private String email;
 	
-	private Date fechaAlta;
+	private LocalDateTime fechaAlta;
 	
-	private Date fechaDesactivacion;
+	private LocalDateTime fechaDesactivacion;
 	
 	private Boolean activo;
 	
@@ -56,19 +56,19 @@ public class UsuarioListadoDTO implements BaseDTO {
 		this.email = email;
 	}
 
-	public Date getFechaAlta() {
+	public LocalDateTime getFechaAlta() {
 		return fechaAlta;
 	}
 
-	public void setFechaAlta(Date fechaAlta) {
+	public void setFechaAlta(LocalDateTime fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
 
-	public Date getFechaDesactivacion() {
+	public LocalDateTime getFechaDesactivacion() {
 		return fechaDesactivacion;
 	}
 
-	public void setFechaDesactivacion(Date fechaDesactivacion) {
+	public void setFechaDesactivacion(LocalDateTime fechaDesactivacion) {
 		this.fechaDesactivacion = fechaDesactivacion;
 	}
 

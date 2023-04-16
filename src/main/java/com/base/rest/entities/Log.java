@@ -1,6 +1,6 @@
 package com.base.rest.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +46,7 @@ public class Log extends BaseEntity {
 	
 	@Column(name = "fecha")
 	@NotNull(message = Constantes.VALIDATION_FECHA_OBLIGATORIO)
-	private Date fecha;
+	private LocalDateTime fecha;
 
 	public Log() {
 		super();
@@ -58,7 +58,7 @@ public class Log extends BaseEntity {
 		this.entidad = entidad;
 		this.accion = accion;
 		this.observaciones = observaciones;
-		this.fecha = new Date();
+		this.fecha = LocalDateTime.now();
 	}
 
 	public Integer getId() {
@@ -101,11 +101,11 @@ public class Log extends BaseEntity {
 		this.observaciones = observaciones;
 	}
 
-	public Date getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 	
