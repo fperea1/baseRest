@@ -19,6 +19,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,10 +33,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.CambioPasswordDTO;
-import com.base.rest.dtos.RolDTO;
+import com.base.rest.dtos.SelectDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.exceptions.ServiceException;
 import com.base.rest.utils.I18nUtils;
+import com.base.rest.utils.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,7 +100,7 @@ class UsuarioControllerTest {
 		
 		UsuarioDTO u = getUsuario("userTest", "nombre test", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 		    .perform(post("/usuarios/save")
@@ -112,7 +116,7 @@ class UsuarioControllerTest {
 		
 		UsuarioDTO u = getUsuario(null, "nombre test", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -131,7 +135,7 @@ class UsuarioControllerTest {
 		
 		UsuarioDTO u = getUsuario("u", "nombre test", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -150,7 +154,7 @@ class UsuarioControllerTest {
 		
 		UsuarioDTO u = getUsuario("abcdefghijkmnopqrstuvwxyz12345678901234567890123456", "nombre test", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -163,13 +167,15 @@ class UsuarioControllerTest {
 	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_USUARIO_SIZE))));	
 	}
 	
-	@Test
 	@Order(7) 
-	void testSaveKoPasswordNull() throws Exception {
+	@ParameterizedTest
+	@NullSource
+	@ValueSource(strings = {"abc", "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"})
+	void testSaveKoPasswordNull(String arg) throws Exception {
 		
-		UsuarioDTO u = getUsuario("username", "nombre test", null, "tes@ezentis");
+		UsuarioDTO u = getUsuario("username", "nombre test", arg, "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -185,52 +191,11 @@ class UsuarioControllerTest {
 	
 	@Test
 	@Order(8) 
-	void testSaveKoPasswordMinSize() throws Exception {
-		
-		UsuarioDTO u = getUsuario("username", "nombre test", "abc", "tes@ezentis");
-		
-		String requestJson = getJson(u);
-		
-		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
-		
-	}
-	
-	@Test
-	@Order(9) 
-	void testSaveKoPasswordMaxSize() throws Exception {
-		
-		UsuarioDTO u = getUsuario("username", "nombre test", 
-				"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", "tes@ezentis");
-		
-		String requestJson = getJson(u);
-		
-		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
-		
-	}
-	
-	@Test
-	@Order(10) 
 	void testSaveKoNombreNull() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", null, "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -244,12 +209,12 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(11) 
+	@Order(9) 
 	void testSaveKoNombreMinSize() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -263,12 +228,12 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(12) 
+	@Order(10) 
 	void testSaveKoNombreMaxSize() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "012345678901234567890123456789012345678901234567890", "passwordTest", "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -282,12 +247,12 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(13) 
+	@Order(11) 
 	void testSaveKoEmailNull() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "nombre", "passwordTest", null);
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -301,12 +266,12 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(14) 
+	@Order(12) 
 	void testSaveKoEmailMalFormado() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "nombre", "passwordTest", "email");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 	    .perform(post("/usuarios/save")
@@ -320,7 +285,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(15) 
+	@Order(13) 
 	void testUpdateOk() throws Exception {
 		
 		ResultActions response = mockMvc
@@ -331,7 +296,7 @@ class UsuarioControllerTest {
 		UsuarioDTO u = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
 		u.setActivo(false);
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 		    .perform(put("/usuarios/update/" + u.getId())
@@ -342,32 +307,31 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(16) 
+	@Order(14) 
 	void testUpdateUserNoExists() throws Exception {
 		
 		UsuarioDTO u = getUsuario("userTestNoUpdate", "nombre test", null, "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 		    .perform(put("/usuarios/update/" + 10)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isConflict())
-		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_ACTIVO_OBLIGATORIO))))
-			.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO))));
+		    .andExpect(status().isBadRequest())
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 		
 	}
 	
 
 	@Test
-	@Order(17) 
+	@Order(15) 
 	void testMetodoNoExiste() throws Exception {
 		
 		UsuarioDTO u = getUsuario("userTestNoUpdate", "nombre test", null, "tes@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 		    .perform(put("/usuarios/noExisto")
@@ -379,7 +343,7 @@ class UsuarioControllerTest {
 	
 
 	@Test
-	@Order(18) 
+	@Order(16) 
 	void testFindByIdOk() throws Exception {
 		
 		mockMvc
@@ -392,7 +356,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(19) 
+	@Order(17) 
 	void testFindByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -405,12 +369,12 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(20) 
+	@Order(18) 
 	void testDeleteById() throws Exception {
 		
 		UsuarioDTO u = getUsuario("delete", "delete test", "passwordTest", "delete@ezentis");
 		
-		String requestJson = getJson(u);
+		String requestJson = Utils.getJson(u);
 		
 		mockMvc
 		    .perform(post("/usuarios/save")
@@ -427,7 +391,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(21) 
+	@Order(19) 
 	void testDeleteByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -440,7 +404,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(22) 
+	@Order(20) 
 	void testDeactivateById() throws Exception {
 		
 		mockMvc
@@ -452,7 +416,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(23) 
+	@Order(21) 
 	void testDeactivateByIdUserNoExists() throws Exception {
 
 		mockMvc
@@ -466,7 +430,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(24) 
+	@Order(22) 
 	void testActivateById() throws Exception {
 
 		mockMvc
@@ -478,7 +442,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(25) 
+	@Order(23) 
 	void testActivateByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -492,7 +456,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(26) 
+	@Order(24) 
 	void testPeticionSinToken() throws Exception {
 		
 		mockMvc
@@ -504,7 +468,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(27) 
+	@Order(25) 
 	void testCambioPasswordUserOk() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest2", "passwordTest2");
@@ -533,7 +497,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(28) 
+	@Order(26) 
 	void testCambioPasswordUserKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2, "erronea", "passwordTest", "passwordTest");
@@ -551,7 +515,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(29) 
+	@Order(27) 
 	void testCambioPasswordAdminOk() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest2");
@@ -567,7 +531,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(30) 
+	@Order(28) 
 	void testCambioPasswordAdminKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2000, "bbbb", "bbbb", "bbbb");
@@ -585,7 +549,7 @@ class UsuarioControllerTest {
 	}
 
 	@Test
-	@Order(31) 
+	@Order(29) 
 	void testCambioPasswordDiferentKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest", "passwordTest3");
@@ -617,20 +581,10 @@ class UsuarioControllerTest {
 		u.setNombre(nombre);
 		u.setPassword(password);
 		u.setEmail(email);
-		RolDTO rol = new RolDTO();
-		rol.setId(1);
-		Set<RolDTO> roles = new HashSet<RolDTO>();
-		roles.add(rol);
+		Set<SelectDTO> roles = new HashSet<>();
+		roles.add(Utils.getSelectDTO(1));
 		u.setRoles(roles);
 		return u;
-	}
-
-	private String getJson(UsuarioDTO u) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-	    String requestJson=ow.writeValueAsString(u);
-		return requestJson;
 	}
 	
 	private String getJsonCambio(CambioPasswordDTO u) throws JsonProcessingException {
@@ -642,7 +596,8 @@ class UsuarioControllerTest {
 	}
 	
 	private UsuarioDTO getObjectFromJson(String s) throws JsonMappingException, JsonProcessingException {
-	    ObjectReader jsonObjectReader = new ObjectMapper().readerFor(UsuarioDTO.class);
+		ObjectMapper mapper = Utils.getObjectMapper();
+	    ObjectReader jsonObjectReader = mapper.readerFor(UsuarioDTO.class);
 	    UsuarioDTO u = jsonObjectReader.readValue(s);
 	    return u;
 	}

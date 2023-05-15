@@ -1,7 +1,6 @@
 package com.base.rest.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.Join;
@@ -119,7 +118,7 @@ public class UsuarioServiceImpl extends RepositoryServiceImpl<Usuario, Integer> 
 		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		((UsuarioRepository)repository).deactivate(new Date(), id);
+		((UsuarioRepository)repository).deactivate(LocalDateTime.now(), id);
 	}
 
 	@Transactional

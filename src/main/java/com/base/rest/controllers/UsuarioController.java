@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +67,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping(Constantes.UPDATE + "/{id}")
-    public ResponseEntity<String> update(@RequestParam Integer id, @Valid @RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody UsuarioDTO usuario) {
 		usuarioService.actualizar(id, usuario);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());

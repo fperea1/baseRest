@@ -30,6 +30,7 @@ import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.exceptions.ServiceException;
 import com.base.rest.utils.I18nUtils;
+import com.base.rest.utils.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,7 +75,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("Prueba", "1234");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 		    .perform(post("/configuracion/save")
@@ -109,7 +110,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion(null, "1234");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 	    .perform(post("/configuracion/save")
@@ -128,7 +129,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("Prueba", null);
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 	    .perform(post("/configuracion/save")
@@ -147,7 +148,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("", "1234");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 	    .perform(post("/configuracion/save")
@@ -166,7 +167,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("Nombre01234567890123456789012345678901234567890123456789", "1234");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 	    .perform(post("/configuracion/save")
@@ -185,7 +186,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("Prueba", "");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 	    .perform(post("/configuracion/save")
@@ -210,10 +211,10 @@ class ConfiguracionControllerTest {
 		ConfiguracionDTO c = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
 		c.setValor("4567");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
-		    .perform(put("/configuracion/update")
+			.perform(put(Constantes.CONFIG + Constantes.UPDATE + "/" + c.getId())
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -226,7 +227,7 @@ class ConfiguracionControllerTest {
 		
 		ConfiguracionDTO c = getConfiguracion("Borrar", "1234");
 		
-		String requestJson = getJson(c);
+		String requestJson = Utils.getJson(c);
 		
 		mockMvc
 		    .perform(post("/configuracion/save")
@@ -260,14 +261,6 @@ class ConfiguracionControllerTest {
 		c.setNombre(nombre);
 		c.setValor(valor);
 		return c;
-	}
-
-	private String getJson(ConfiguracionDTO c) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-	    String requestJson=ow.writeValueAsString(c);
-		return requestJson;
 	}
 	
 	private ConfiguracionDTO getObjectFromJson(String s) throws JsonMappingException, JsonProcessingException {

@@ -22,7 +22,7 @@ public class UsuarioListadoDTO implements BaseDTO {
 	
 	private Boolean activo;
 	
-	private Set<RolDTO> roles;
+	private Set<SelectDTO> roles;
 
 	public Integer getId() {
 		return id;
@@ -80,11 +80,11 @@ public class UsuarioListadoDTO implements BaseDTO {
 		this.activo = activo;
 	}
 
-	public Set<RolDTO> getRoles() {
+	public Set<SelectDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<RolDTO> roles) {
+	public void setRoles(Set<SelectDTO> roles) {
 		this.roles = roles;
 	}
 

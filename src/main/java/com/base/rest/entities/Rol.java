@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.base.rest.constant.Constantes;
-import com.googlecode.jmapper.annotations.JMap;
 
 @Entity
 @Table(name = "roles")
@@ -20,12 +19,10 @@ public class Rol extends BaseEntity {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JMap
 	private int id;
 	
 	@Column(name = "nombre", length = 50, unique = true)
 	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
-	@JMap
 	private String nombre;
 
     @ManyToMany(mappedBy = "roles")

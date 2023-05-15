@@ -12,11 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.base.rest.constant.Constantes;
-import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @Entity
 @Table(name = "logs")
-@JGlobalMap
 public class Log extends BaseEntity {
 
 	@Id

@@ -18,11 +18,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.base.rest.constant.Constantes;
-import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @Entity
 @Table(name = "usuarios")
-@JGlobalMap
 public class Usuario extends BaseEntity {
 	
 	@Id
@@ -41,8 +39,8 @@ public class Usuario extends BaseEntity {
 	private String username;
 	
 	@Column(name = "password", length = 100, updatable=false)
-	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
-	@NotNull(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
+//	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
+//	@NotNull(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
 	private String password;
 	
 	@Column(name = "email", length = 100)

@@ -1,7 +1,7 @@
 package com.base.rest.repositories;
 
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -18,7 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>, JpaS
 
 	@Modifying
 	@Query("update Usuario set activo = false, fechaDesactivacion = :fecha where id = :id")
-	Integer deactivate(@Param("fecha") Date fecha, @Param("id") Integer id);
+	Integer deactivate(@Param("fecha") LocalDateTime fecha, @Param("id") Integer id);
 
 	@Modifying
 	@Query("update Usuario set activo = true, fechaDesactivacion = null where id = :id")
