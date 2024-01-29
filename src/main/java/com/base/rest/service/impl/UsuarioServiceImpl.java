@@ -1,9 +1,9 @@
 package com.base.rest.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,6 @@ import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.dtos.UsuarioListadoDTO;
 import com.base.rest.entities.BaseEntity;
-import com.base.rest.entities.Rol;
 import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.ServiceException;
 import com.base.rest.repositories.UsuarioRepository;
@@ -28,7 +27,7 @@ import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.utils.Converter;
 import com.base.rest.utils.bd.FiltroTablasView;
 import com.base.rest.utils.bd.FiltrosUtils;
-import com.base.rest.utils.bd.SearchCriteriaColumn;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -60,9 +59,9 @@ public class UsuarioServiceImpl extends RepositoryServiceImpl<Usuario, Integer> 
 		
 		Specification<BaseEntity> spec = getSpecification(filtro);
 		if (filtro.getFilters() != null && !filtro.getFilters().isEmpty()) {
-			List<SearchCriteriaColumn> params = FiltrosUtils.getFiltrosSelect(filtro.getFilters());
-			for (SearchCriteriaColumn scc: params) {
-				spec = Specification.where(spec).or(hasRolConNombre(scc.getValue().toString()));
+			String[] params = FiltrosUtils.getFiltrosSelect(filtro.getFilters(), Constantes.JOIN_ROLES);
+			if (params != null && params.length > 0) {
+				spec = Specification.where(spec).and(hasJoin(params, Constantes.JOIN_ROLES));
 			}
 		}
         
@@ -71,11 +70,16 @@ public class UsuarioServiceImpl extends RepositoryServiceImpl<Usuario, Integer> 
 		return converterListadoDTO.convertToResultTableDTO(((UsuarioRepository)repository).findAll(spec, pageable));
 	}
 	
-	private Specification<BaseEntity> hasRolConNombre(String nombre) {
-	    return (root, query, criteriaBuilder) -> {
-	        Join<Rol, Usuario> roles = root.join("roles");
-	        return criteriaBuilder.equal(roles.get("nombre"), nombre);
-	    };
+	private Specification<BaseEntity> hasJoin(String[] values, String field) {
+		return (root, query, criteriaBuilder) -> {		
+			Join<BaseEntity, Usuario> join = root.join(field);			
+			Predicate[] predicates = new Predicate[values.length];
+			int contador = 0;
+			for (String nombre: values) {
+				predicates[contador++] = criteriaBuilder.equal(join.get(Constantes.COLUMN_NOMBRE), nombre);
+			}
+			return criteriaBuilder.or(predicates);
+		};
 	}
 
 	@Transactional

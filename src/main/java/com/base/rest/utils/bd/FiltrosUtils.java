@@ -15,6 +15,8 @@ public final class FiltrosUtils {
 	
 	private static final String VALUE = "value";
 	
+	private static final String MATCH_MODE = "matchMode";
+	
 	public static FiltroTablasView getFiltroByString(String filtro) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		FiltroTablasView filtroDTO;
@@ -46,31 +48,50 @@ public final class FiltrosUtils {
 			SearchCriteriaColumn scc = new SearchCriteriaColumn();
 			scc.setNameColumn(column);
 			JsonNode node = filters.path(column);
-			if (!node.path(VALUE).asText().contentEquals("null")) {
+			if (!node.path(VALUE).asText().contentEquals("null") 
+					&& !node.path(MATCH_MODE).asText().contentEquals("enum")
+					&& !node.path(MATCH_MODE).asText().contentEquals("select")) {
 	            scc.setValue(node.path(VALUE).asText());
-	            scc.setMatchMode(node.path("matchMode").asText());
+	            scc.setMatchMode(node.path(MATCH_MODE).asText());
 	            list.add(scc);
 			}
 		}
  		return list;
 	}
 	
-	public static List<SearchCriteriaColumn> getFiltrosSelect(JsonNode filters) {
+	public static String[] getFiltrosSelect(JsonNode filters, String field) {
 		
-		List<SearchCriteriaColumn> list = new ArrayList<>();
 		Iterator<String> it = filters.fieldNames();
+		List<String> values = new ArrayList<>();
 		while (it.hasNext()) {
 			String column = it.next();
-			JsonNode node = filters.path(column);
-			if (!node.path(VALUE).asText().contentEquals("null") && node.path("matchMode").asText().equals("select") ) {
-				for (String s: node.findValuesAsText("nombre")) {
-					SearchCriteriaColumn scc = new SearchCriteriaColumn();
-					scc.setValue(s);
-					scc.setNameColumn(column);
-			        list.add(scc);
+			if (field.equals(column)) {
+				JsonNode node = filters.path(column);
+				if (!node.path(VALUE).asText().contentEquals("null") && node.path(MATCH_MODE).asText().equals("select") ) {
+					for (String s: node.findValuesAsText("nombre")) {
+				        values.add(s);
+					}
 				}
 			}
 		}
- 		return list;
+		return values.toArray(new String[values.size()]);
+	}
+	
+	public static String[] getFiltrosEnum(JsonNode filters, String field) {
+		
+		Iterator<String> it = filters.fieldNames();
+		List<String> values = new ArrayList<>();
+		while (it.hasNext()) {
+			String column = it.next();
+			if (field.equals(column)) {
+				JsonNode node = filters.path(column);
+				if (!node.path(VALUE).asText().contentEquals("null") && node.path(MATCH_MODE).asText().equals("enum") ) {
+					for (String s: node.findValuesAsText("codigo")) {
+						values.add(s);
+					}
+				}
+			}
+		}
+ 		return values.toArray(new String[values.size()]);
 	}
 }

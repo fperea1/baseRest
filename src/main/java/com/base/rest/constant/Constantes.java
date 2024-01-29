@@ -261,5 +261,11 @@ public final class Constantes {
 	public static final String VALIDATION_NUEVA_PASSWORD_OBLIGATORIO = "validation.nueva.password.obligatorio";
 	
 	public static final String VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO = "validation.confirmacion.password.obligatorio";
+	
+	// Columnas join
+	
+	public static final String COLUMN_NOMBRE = "nombre";
+	
+	public static final String JOIN_ROLES = "roles";
 			
 }
